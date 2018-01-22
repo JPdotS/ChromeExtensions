@@ -1,6 +1,11 @@
+main {
+  padding:0;
+  margin:0;
+}
 #greeting {
-  background-color: #F8F8F8;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 24px;
-  margin: 15px;
+  font-family: Courier, 'Open Sans', sans-serif;
+  overflow:hidden;
+  width: 2000px;
+  font-size: 16px;
+  margin: 1px;
 }
