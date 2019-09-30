@@ -1,7 +1,5 @@
 # ChromeExtension
 
-### This extension just pretty prints URL. 
-
 #### Steps to install
 - download the extension as a .zip by looking for the “Download ZIP” button on the right-hand side of the project page on GitHub. 
 - Now extract/unzip the code somewhere. 
