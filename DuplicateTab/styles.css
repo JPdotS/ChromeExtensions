@@ -6,13 +6,18 @@ main {
 #greeting {
   font-family: Courier, 'Open Sans', sans-serif;
   overflow:hidden;
-  width: 250px;
+  width: 400px;
   font-size: 16px;
   margin: 1px;
 }
 
-#table {
+table {
   border-collapse:collapse;
   border-spacing:0;
   width:100%;
-  display:table}
+  display:table
+}
+
+td, th {
+  border: 1px solid black;
+}
