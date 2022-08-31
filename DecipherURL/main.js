@@ -6,7 +6,7 @@ chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
 
   var msg = "The URL: \n";
   msg = msg.concat(url)
-  msg = msg.concat("\n\n\nParts: \n")
+  msg = msg.concat("\n\nParts: \n")
 
   // url = url.replace(/\/\//gi, "\/");
   // url = url.replace(/\//gi, "\n");

@@ -5,9 +5,11 @@ chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
   const domain = (new URL(url)).hostname.replace('www.','').toLowerCase();
 
 
-  urlParts = /^(?:\w+\:\/\/)?([^\/]+)([^\?]*)\??(.*)$/.exec(url);
-  
-  path = urlParts[2];
+  // urlParts = /^(?:\w+\:\/\/)?([^\/]+)([^\?]*)\??(.*)$/.exec(url);
+  // path = urlParts[2];
+
+  urlParts = url.split(domain)
+  path = urlParts[1]
   if (path === '/'){
     path = ''
   }
@@ -21,8 +23,10 @@ chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
     _domain = domain.slice(0, -2)
   }
 
-  if (domain.includes('qa')) {
+  if (domain.includes('batchqa')) {
     _domain = _domain.replace('qa', 'prod')
+  } else if (domain.includes('qa')) {
+    _domain = _domain.replace('qa', '')
   }
 
   if(_domain.includes('prod')){
@@ -34,14 +38,28 @@ chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
     
   
   var top = ' '
-  top += 'domain: ' + domain + '</br>'
+  top += 'domain: <b>' + domain + '</b></br>'
+  top += '</br>'
   // top += 'proto_host: ' + proto_host + '</br>'
-  // top += 'path: ' + path + '</br>'
-  top += '_domain: ' + _domain + '</br>'
-  top += '_qadomain: ' + _qa_domain + '</br>'
+  top += 'prod domain: ' + _domain + '</br>'
+  top += 'qa domain: ' + _qa_domain + '</br>'
+  top += '</br>'
+  top += 'path: ' + path + '</br>'
 
   table =  ' '
   table += '<table align="center">'
+
+  table += '  <tr>'
+  table += '    <td align="center">'
+  table += spaces
+  table += '    </td>'
+  table += '    <td align="center">'
+  table += spaces
+  table += '    </td>'
+  table += '    <td align="center">'
+  table += spaces
+  table += '    </td>'
+  table += '  </tr>'
 
   table += '  <tr>'
   table += '    <td align="center">'
@@ -79,18 +97,6 @@ chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
   table += '    </td>'
   table += '  </tr>'
   
-  table += '  <tr>'
-  table += '    <td align="center">'
-  table += spaces
-  table += '    </td>'
-  table += '    <td align="center">'
-  table += spaces
-  table += '    </td>'
-  table += '    <td align="center">'
-  table += spaces
-  table += '    </td>'
-  table += '  </tr>'
-
   table += '</table>'
   
   var element = document.querySelector("#greeting");
