@@ -59,6 +59,16 @@ h1 {
 .btn:hover {
   background: #f3f4f6;
 }
+.btn.icon {
+  padding: 0 8px;
+  height: 26px;
+  line-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn.danger { border-color: #fca5a5; color: #b91c1c; }
+.btn.danger:hover { background: #fee2e2; }
 .status {
   font-size: 12px;
   color: #6b7280;
@@ -67,4 +77,22 @@ h1 {
   margin-top: 6px;
   font-size: 11px;
   color: #6b7280;
+}
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 32px;
+  gap: 6px;
+}
+.kv {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 6px;
+  padding: 6px 8px;
 }
