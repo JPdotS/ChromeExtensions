@@ -26,6 +26,7 @@ chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
       return;
     }
 
+    var activeTabId = tabs[0].id;
     var rawUrl = tabs[0].url;
     try {
       url = decodeURIComponent(rawUrl);
@@ -33,15 +34,24 @@ chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
       url = rawUrl; // Fallback to raw URL if it's not safely decodable
     }
 
-    var parts = url.replace(/\?/gi, "\n\? ").replace(/\&/gi, "\n\& ");
+    function render(u) {
+      var parts = (u || "").replace(/\?/gi, "\n\? ").replace(/\&/gi, "\n\& ");
+      setText("#parts", parts);
+      return parts;
+    }
 
-    setText("#full-url", url);
-    setText("#parts", parts);
+    var urlInput = document.querySelector("#url-input");
+    if (urlInput) {
+      urlInput.value = url;
+    }
+
+    var parts = render(url);
 
     var copyUrlBtn = document.querySelector("#copy-url");
     if (copyUrlBtn) {
       copyUrlBtn.addEventListener("click", function () {
-        copyToClipboard(url).then(function () {
+        var current = (document.querySelector("#url-input") || {}).value || url;
+        copyToClipboard(current).then(function () {
           setStatus("Copied full URL");
           setTimeout(function () { setStatus(""); }, 1200);
         }).catch(function () {
@@ -53,12 +63,41 @@ chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
     var copyPartsBtn = document.querySelector("#copy-parts");
     if (copyPartsBtn) {
       copyPartsBtn.addEventListener("click", function () {
-        copyToClipboard(parts).then(function () {
+        var currentUrl = (document.querySelector("#url-input") || {}).value || url;
+        var currentParts = render(currentUrl);
+        copyToClipboard(currentParts).then(function () {
           setStatus("Copied query parts");
           setTimeout(function () { setStatus(""); }, 1200);
         }).catch(function () {
           setStatus("Failed to copy");
         });
+      });
+    }
+
+    if (urlInput) {
+      urlInput.addEventListener("input", function (e) {
+        var value = e.target.value || "";
+        render(value);
+      });
+      urlInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          var targetUrl = urlInput.value.trim();
+          if (!targetUrl) {
+            setStatus("URL is empty");
+            return;
+          }
+          try {
+            // If user entered without protocol, assume https
+            if (!/^https?:\/\//i.test(targetUrl)) {
+              targetUrl = "https://" + targetUrl;
+            }
+            chrome.tabs.update(activeTabId, { url: targetUrl });
+            setStatus("Loading...");
+          } catch (e2) {
+            setStatus("Failed to load URL");
+          }
+        }
       });
     }
   } catch (err) {
