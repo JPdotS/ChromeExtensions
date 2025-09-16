@@ -2,10 +2,49 @@ main {
   padding:0;
   margin:0;
 }
-#greeting {
-  font-family: Courier, 'Open Sans', sans-serif;
-  overflow:hidden;
-  width: 2000px;
+.container {
+  width: 360px;
+  max-width: 90vw;
+  padding: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+h1 {
   font-size: 16px;
-  margin: 1px;
+  margin: 0 0 8px 0;
+}
+.section {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 10px;
+  background: #fafafa;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 12px;
+  margin: 0;
+}
+.btn {
+  font-size: 12px;
+  padding: 4px 8px;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #f3f4f6;
+}
+.status {
+  font-size: 12px;
+  color: #6b7280;
 }

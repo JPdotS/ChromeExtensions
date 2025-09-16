@@ -8,7 +8,27 @@
 </head>
 
 <body>
-  <div id="greeting"></div>
+  <div class="container">
+    <h1>Decipher URL</h1>
+
+    <div class="section">
+      <div class="section-header">
+        <span>Full URL</span>
+        <button id="copy-url" class="btn">Copy</button>
+      </div>
+      <pre id="full-url" class="mono"></pre>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span>Query parts</span>
+        <button id="copy-parts" class="btn">Copy</button>
+      </div>
+      <pre id="parts" class="mono"></pre>
+    </div>
+
+    <div id="status" class="status"></div>
+  </div>
 
   <script src="main.js"></script> 
 </body>

@@ -1,16 +1,28 @@
 var url = window.location.toString();
 
-function setGreeting(text) {
-  var element = document.querySelector("#greeting");
-  if (element) {
-    element.innerText = text;
+function setText(selector, text) {
+  var el = document.querySelector(selector);
+  if (el) {
+    el.innerText = text;
+  }
+}
+
+function setStatus(text) {
+  setText("#status", text || "");
+}
+
+function copyToClipboard(text) {
+  try {
+    return navigator.clipboard.writeText(text);
+  } catch (e) {
+    return Promise.reject(e);
   }
 }
 
 chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
   try {
     if (!tabs || !tabs.length || !tabs[0] || !tabs[0].url) {
-      setGreeting("Could not read the active tab URL.");
+      setStatus("Could not read the active tab URL.");
       return;
     }
 
@@ -21,23 +33,36 @@ chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
       url = rawUrl; // Fallback to raw URL if it's not safely decodable
     }
 
-    try {
-      navigator.clipboard.writeText(url).catch(function () { /* ignore clipboard errors */ });
-    } catch (e) {
-      // Ignore clipboard API errors in environments where it's unavailable
+    var parts = url.replace(/\?/gi, "\n\? ").replace(/\&/gi, "\n\& ");
+
+    setText("#full-url", url);
+    setText("#parts", parts);
+
+    var copyUrlBtn = document.querySelector("#copy-url");
+    if (copyUrlBtn) {
+      copyUrlBtn.addEventListener("click", function () {
+        copyToClipboard(url).then(function () {
+          setStatus("Copied full URL");
+          setTimeout(function () { setStatus(""); }, 1200);
+        }).catch(function () {
+          setStatus("Failed to copy");
+        });
+      });
     }
 
-    var msg = "The URL: \n";
-    msg = msg.concat(url);
-    msg = msg.concat("\n\nParts: \n");
-
-    // url = url.replace(/\/\//gi, "\/");
-    // url = url.replace(/\//gi, "\n");
-    var formatted = url.replace(/\?/gi, "\n\? ").replace(/\&/gi, "\n\& ");
-
-    setGreeting(msg.concat(formatted));
+    var copyPartsBtn = document.querySelector("#copy-parts");
+    if (copyPartsBtn) {
+      copyPartsBtn.addEventListener("click", function () {
+        copyToClipboard(parts).then(function () {
+          setStatus("Copied query parts");
+          setTimeout(function () { setStatus(""); }, 1200);
+        }).catch(function () {
+          setStatus("Failed to copy");
+        });
+      });
+    }
   } catch (err) {
-    setGreeting("An error occurred while processing the URL.");
+    setStatus("An error occurred while processing the URL.");
   }
 });
 
