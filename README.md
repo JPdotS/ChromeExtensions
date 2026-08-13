@@ -7,3 +7,4 @@
 - Click the “Developer mode” checkbox and then click the button labeled “Load unpacked extension…”
 - Navigate in the resulting file dialog box until you are in the directory with a manifest.json file. 
 - OK... that’s it! The extension loaded, 
+
