@@ -8,3 +8,5 @@
 - Navigate in the resulting file dialog box until you are in the directory with a manifest.json file. 
 - OK... that’s it! The extension loaded, 
 
+
+
